@@ -1,0 +1,10 @@
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\bin\Debug\AVR_Universal_Bootloader_PC_App.exe.config
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\bin\Debug\AVR_Universal_Bootloader_PC_App.exe
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\bin\Debug\AVR_Universal_Bootloader_PC_App.pdb
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.csproj.AssemblyReference.cache
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.AVR_Universal_Boot.resources
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.Properties.Resources.resources
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.csproj.GenerateResource.cache
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.csproj.CoreCompileInputs.cache
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.exe
+D:\Projects\Embedded Projects\Personal\Visual Studio\AVR_Universal_Bootloader_PC_App\obj\Debug\AVR_Universal_Bootloader_PC_App.pdb

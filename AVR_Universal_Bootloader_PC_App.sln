@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVR_Universal_Bootloader_PC_App", "AVR_Universal_Bootloader_PC_App.csproj", "{8BE9176B-5953-4434-ABC5-DEAE6D6A8EAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BE9176B-5953-4434-ABC5-DEAE6D6A8EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE9176B-5953-4434-ABC5-DEAE6D6A8EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE9176B-5953-4434-ABC5-DEAE6D6A8EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE9176B-5953-4434-ABC5-DEAE6D6A8EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E61004F5-C341-41A9-85C3-E407A2B76C2E}
+	EndGlobalSection
+EndGlobal

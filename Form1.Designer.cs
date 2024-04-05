@@ -32,6 +32,7 @@
             this.cbSelectPort = new System.Windows.Forms.ComboBox();
             this.UART = new System.IO.Ports.SerialPort(this.components);
             this.btnWrite = new System.Windows.Forms.Button();
+            this.tmrRetry = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // cbSelectPort
@@ -59,6 +60,10 @@
             this.btnWrite.UseVisualStyleBackColor = true;
             this.btnWrite.Click += new System.EventHandler(this.btnWrite_Click);
             // 
+            // tmrRetry
+            // 
+            this.tmrRetry.Tick += new System.EventHandler(this.tmrRetry_Tick);
+            // 
             // AVR_Universal_Boot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -77,6 +82,7 @@
         private System.Windows.Forms.ComboBox cbSelectPort;
         private System.IO.Ports.SerialPort UART;
         private System.Windows.Forms.Button btnWrite;
+        private System.Windows.Forms.Timer tmrRetry;
     }
 }
 

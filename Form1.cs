@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,11 +13,42 @@ using System.Windows.Forms;
 
 namespace AVR_Universal_Bootloader_PC_App
 {
+
     public partial class AVR_Universal_Boot : Form
     {
+        
+        int Retry_Reset = 0;
+
         public AVR_Universal_Boot()
         {
             InitializeComponent();
+        }
+
+        private void UART_Reset_Target()
+        {
+            if (UART.IsOpen)
+            {
+                try
+                {
+                    UART.DtrEnable = true;
+                    UART.RtsEnable = true;
+                }
+                catch
+                {
+
+                }
+
+                Thread.Sleep(5);
+                try
+                {
+                    UART.DtrEnable = false;
+                    UART.RtsEnable = false;
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         private void cbSelectPort_SelectedIndexChanged(object sender, EventArgs e)
@@ -75,27 +107,22 @@ namespace AVR_Universal_Bootloader_PC_App
 
         private void btnWrite_Click(object sender, EventArgs e)
         {
-            try
-            {
-                UART.DtrEnable = true;
-                UART.RtsEnable = true;
-            }
-            catch
-            {
+            Retry_Reset = 5;
+            tmrRetry.Enabled = true;
 
-            }
-            
-            Thread.Sleep(5);
-            try
-            {
-                UART.DtrEnable = false;
-                UART.RtsEnable = false;
-            }
-            catch
-            {
+        }
 
+        private void tmrRetry_Tick(object sender, EventArgs e)
+        {
+            if (Retry_Reset > 0)
+            {
+                Retry_Reset--;
+                UART_Reset_Target();
             }
-            
+            else
+            {
+                tmrRetry.Enabled = false;
+            }
         }
     }
 }

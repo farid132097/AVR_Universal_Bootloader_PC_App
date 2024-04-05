@@ -33,6 +33,7 @@
             this.UART = new System.IO.Ports.SerialPort(this.components);
             this.btnWrite = new System.Windows.Forms.Button();
             this.tmrRetry = new System.Windows.Forms.Timer(this.components);
+            this.rtbOutput = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // cbSelectPort
@@ -49,6 +50,7 @@
             // UART
             // 
             this.UART.Handshake = System.IO.Ports.Handshake.XOnXOff;
+            this.UART.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.UART_DataReceived);
             // 
             // btnWrite
             // 
@@ -62,13 +64,24 @@
             // 
             // tmrRetry
             // 
+            this.tmrRetry.Interval = 40;
             this.tmrRetry.Tick += new System.EventHandler(this.tmrRetry_Tick);
+            // 
+            // rtbOutput
+            // 
+            this.rtbOutput.Location = new System.Drawing.Point(12, 77);
+            this.rtbOutput.Name = "rtbOutput";
+            this.rtbOutput.Size = new System.Drawing.Size(358, 43);
+            this.rtbOutput.TabIndex = 2;
+            this.rtbOutput.Text = "";
+            this.rtbOutput.TextChanged += new System.EventHandler(this.rtbOutput_TextChanged);
             // 
             // AVR_Universal_Boot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 143);
+            this.Controls.Add(this.rtbOutput);
             this.Controls.Add(this.btnWrite);
             this.Controls.Add(this.cbSelectPort);
             this.Name = "AVR_Universal_Boot";
@@ -83,6 +96,7 @@
         private System.IO.Ports.SerialPort UART;
         private System.Windows.Forms.Button btnWrite;
         private System.Windows.Forms.Timer tmrRetry;
+        private System.Windows.Forms.RichTextBox rtbOutput;
     }
 }
 

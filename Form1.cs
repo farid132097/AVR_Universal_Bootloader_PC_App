@@ -22,7 +22,7 @@ namespace AVR_Universal_Bootloader_PC_App
         string  Config_Packet_Debug = "";
         UInt16  UART_Available_Data = 0;
         byte[]  UART_Data_Buffer = new byte[200];
-        byte    SYNC_Byte          = 0;
+        UInt16  SYNC_Byte          = 0;
         UInt32  Device_Signature   = 0;
         UInt32  Device_Baud_Rate   = 0;
         UInt16  CRC_Received       = 0;
@@ -70,7 +70,7 @@ namespace AVR_Universal_Bootloader_PC_App
         private void UART_Reset()
         {
             UART_DTR_RTS_Enable();
-            Thread.Sleep(1);
+            Thread.Sleep(5);
             UART_DTR_RTS_Disable();
         }
 
@@ -110,30 +110,35 @@ namespace AVR_Universal_Bootloader_PC_App
             CRC_OK = 0;
 
             SYNC_Byte        = UART_Data_Buffer[0];
+            SYNC_Byte        <<= 8;
+            SYNC_Byte       |= UART_Data_Buffer[1];
 
-            Device_Signature = UART_Data_Buffer[1];
-            Device_Signature <<= 8;
-            Device_Signature |= UART_Data_Buffer[2];
+            Device_Signature = UART_Data_Buffer[2];
             Device_Signature <<= 8;
             Device_Signature |= UART_Data_Buffer[3];
             Device_Signature <<= 8;
             Device_Signature |= UART_Data_Buffer[4];
+            Device_Signature <<= 8;
+            Device_Signature |= UART_Data_Buffer[5];
 
-            Device_Baud_Rate  = UART_Data_Buffer[5];
-            Device_Baud_Rate <<= 8;
-            Device_Baud_Rate |= UART_Data_Buffer[6];
+            Device_Baud_Rate = UART_Data_Buffer[6];
             Device_Baud_Rate <<= 8;
             Device_Baud_Rate |= UART_Data_Buffer[7];
+            Device_Baud_Rate <<= 8;
+            Device_Baud_Rate |= UART_Data_Buffer[8];
+            Device_Baud_Rate <<= 8;
+            Device_Baud_Rate |= UART_Data_Buffer[9];
 
-            CRC_Received      = UART_Data_Buffer[8];
+            CRC_Received      = UART_Data_Buffer[10];
             CRC_Received     <<= 8;
-            CRC_Received     |= UART_Data_Buffer[9];
+            CRC_Received     |= UART_Data_Buffer[11];
 
-            CRC_Calculated = Calculate_CRC_Block(UART_Data_Buffer, 8);
+            CRC_Calculated = Calculate_CRC_Block(UART_Data_Buffer, 10);
 
             if(CRC_Received == CRC_Calculated)
             {
                 CRC_OK = 1;
+                DCNT_Retry_Reset = 0;
             }
 
             /*
@@ -159,31 +164,6 @@ namespace AVR_Universal_Bootloader_PC_App
             */
         }
 
-        byte Get_CRC_Status()
-        {
-            byte sts = 0;
-            if(CRC_OK == 1)
-            {
-                sts = 1;
-                CRC_OK = 0;
-            }
-            return sts;
-        }
-
-        byte Get_SYNC_Byte()
-        {
-            return SYNC_Byte;
-        }
-
-        UInt32 Get_Device_Signature()
-        {
-            return Device_Signature;
-        }
-
-        UInt32 Get_Baud_Rate()
-        {
-            return Device_Baud_Rate;
-        }
 
 
         private void cbSelectPort_SelectedIndexChanged(object sender, EventArgs e)
@@ -205,21 +185,11 @@ namespace AVR_Universal_Bootloader_PC_App
             try
             {
                 UART.Open();
+                UART.DiscardInBuffer();
             }
             catch { 
             
             }
-
-            if (UART.IsOpen)
-            {
-                cbSelectPort.ForeColor = Color.LightGreen;
-            }
-            else
-            {
-                cbSelectPort.ForeColor = Color.Red;
-            }
-            
-
         }
 
         private void cbSelectPort_MouseClick(object sender, MouseEventArgs e)
@@ -243,10 +213,18 @@ namespace AVR_Universal_Bootloader_PC_App
         private void btnWrite_Click(object sender, EventArgs e)
         {
             DCNT_Retry_Reset = 10;
-            tmrRetry.Enabled = true;
-            UART.ReadExisting();
+            if (UART.IsOpen == true)
+            {
+                UART.Close();
+                UART.BaudRate = 9600;
+                try
+                {
+                    UART.Open();
+                }catch { }
+            }
             UART.DiscardInBuffer();
             UART_Available_Data = 0;
+            tmrRetry.Enabled = true;
         }
 
         private void tmrRetry_Tick(object sender, EventArgs e)
@@ -254,30 +232,40 @@ namespace AVR_Universal_Bootloader_PC_App
             if (DCNT_Retry_Reset > 0)
             {
                 tmrRetry.Enabled = false;
-                if (Get_CRC_Status() == 1)
-                {
-                    DCNT_Retry_Reset = 0;
-                }
-                else
-                {
-                    DCNT_Retry_Reset--;
-                    UART_Reset();
-                    tmrRetry.Enabled = true;
-                }
+                DCNT_Retry_Reset--;
+                UART_Reset();
+                tmrRetry.Enabled = true;
             }
             else
             {
                 tmrRetry.Enabled = false;
+                if(CRC_OK == 1)
+                {
+                    CRC_OK = 0;
+                    try
+                    {
+                        UART.DiscardInBuffer();
+                        UART.Close();
+                    }
+                    catch { }
+                    UART.BaudRate = (int)Device_Baud_Rate;
+                    try
+                    {
+                        UART.Open();
+                        UART.DiscardInBuffer();
+                        UART.Write(UART_Data_Buffer, 0, 12);
+                    }
+                    catch { }
+                }
             }
         }
 
         private void UART_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             UART_Available_Data = (UInt16)UART.BytesToRead;
-            UART.Read(UART_Data_Buffer, 0, UART_Available_Data);
-
-            if (UART_Available_Data == 10)
+            if (UART_Available_Data == 12)
             {
+                UART.Read(UART_Data_Buffer, 0, UART_Available_Data);
                 this.Invoke(new EventHandler(UART_Data_Validate));
             }
         }

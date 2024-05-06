@@ -39,6 +39,7 @@
             // cbSelectPort
             // 
             this.cbSelectPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSelectPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSelectPort.FormattingEnabled = true;
             this.cbSelectPort.Location = new System.Drawing.Point(12, 12);
             this.cbSelectPort.Name = "cbSelectPort";
@@ -64,7 +65,7 @@
             // 
             // tmrRetry
             // 
-            this.tmrRetry.Interval = 40;
+            this.tmrRetry.Interval = 20;
             this.tmrRetry.Tick += new System.EventHandler(this.tmrRetry_Tick);
             // 
             // rtbOutput

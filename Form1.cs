@@ -21,13 +21,13 @@ namespace AVR_Universal_Bootloader_PC_App
 
         string  Config_Packet_Debug = "";
         UInt16  UART_Available_Data = 0;
-        byte[]  UART_Data_Buffer = new byte[200];
-        UInt16  SYNC_Byte          = 0;
-        UInt32  Device_Signature   = 0;
-        UInt32  Device_Baud_Rate   = 0;
-        UInt16  CRC_Received       = 0;
-        UInt16  CRC_Calculated     = 0;
-        UInt16  CRC_OK             = 0;
+        byte[]  UART_Data_Buffer    = new byte[200];
+        UInt16  SYNC_Byte           = 0;
+        UInt32  Device_Signature    = 0;
+        UInt32  Device_Baud_Rate    = 0;
+        UInt16  CRC_Received        = 0;
+        UInt16  CRC_Calculated      = 0;
+        UInt16  CRC_OK              = 0;
 
 
         public AVR_Universal_Boot()
